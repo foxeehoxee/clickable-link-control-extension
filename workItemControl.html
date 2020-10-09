@@ -1,0 +1,152 @@
+<!-- Azure DevOps custom work item control. Author: Mark Hawkes and Various Contributors, October 2020 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Clickable Links</title>
+</head>
+
+<body style="overflow:hidden;">
+
+    <script src="lib/VSS.SDK.min.js"></script>
+    
+    <script>
+
+        // ToDo's & AtSomePoint's
+        // TODO: Add some kind of check for URLishness at some point - can assume validity for first install but would be good to have for publishing.
+        // TODO: Abstract repeated code blocks to functions, clean up code, clean up indentation, etc.
+        // TODO: Add readme doc with some install instructions.
+        
+        VSS.init({
+            explicitNotifyLoaded: true,
+            usePlatformScripts: true
+        });
+
+        VSS.require(["TFS/WorkItemTracking/Services"], function (_WorkItemServices) {
+
+            // Get the WorkItemFormService. This service allows you to get/set fields/links on the 'active' work item
+            // (the work item that currently is displayed in the UI)
+            function getWorkItemFormService()
+            {
+                return _WorkItemServices.WorkItemFormService.getService();
+            }
+                
+            // Register a listener for the work item group contribution
+            VSS.register(VSS.getContribution().id, function () {
+                return {
+                    // Called when the active work item is modified
+                    onFieldChanged: function(args) {
+                        // Debug code
+                        //$(".events").append($("<div/>").text("onFieldChanged - " + JSON.stringify(args)));
+                    },
+                    
+                    // Called when a new work item is being loaded in the UI
+                    onLoaded: function (args) {
+            
+                        getWorkItemFormService().then(function(service) {            
+                            
+                            // Get the user-configured backing field for our control
+                            inputFieldName = VSS.getConfiguration().witInputs.FieldName;
+                            
+                            // Get the backing field's value
+                            service.getFieldValues([VSS.getConfiguration().witInputs.FieldName]).then(
+                                 function (value) {
+                                     
+                                     // TODO: This block can be abstracted to its own function since it is duplicated throughout listener
+                                     
+                                     valueWithInputFieldNameAsKey = value[inputFieldName]; // working
+                                     
+                                     // Update the DOM element to display our link in the view
+                                     customControlLinkInView = document.getElementById('mchCustomControlLink');
+                                     customControlLinkInView.href = valueWithInputFieldNameAsKey;
+                                     customControlLinkInView.innerText = valueWithInputFieldNameAsKey;
+                                     customControlLinkInView.title = valueWithInputFieldNameAsKey;
+
+                                 });
+                        });
+                    },
+                    
+                    // Called when the active work item is being unloaded in the UI
+                    onUnloaded: function (args) {
+                        /* Debug code
+                        //$(".events").empty();
+                        //$(".events").append($("<div/>").text("onUnloaded - " + JSON.stringify(args)));
+                        */
+                    },
+                    
+                    // Called after the work item has been saved
+                    onSaved: function (args) {
+                        
+                        getWorkItemFormService().then(function(service) {            
+                            
+                            // Get the user-configured backing field for our control
+                            inputFieldName = VSS.getConfiguration().witInputs.FieldName;
+                            
+                            // Get the backing field's value
+                            service.getFieldValues([VSS.getConfiguration().witInputs.FieldName]).then(
+                                 function (value) {
+                                     
+                                     // TODO: This block can be abstracted to its own function since it is duplicated throughout listener
+                                     
+                                     valueWithInputFieldNameAsKey = value[inputFieldName]; // working
+                                     
+                                     // Update the DOM element to display our link in the view
+                                     customControlLinkInView = document.getElementById('mchCustomControlLink');
+                                     customControlLinkInView.href = valueWithInputFieldNameAsKey;
+                                     customControlLinkInView.innerText = valueWithInputFieldNameAsKey;
+                                     customControlLinkInView.title = valueWithInputFieldNameAsKey;
+                                    
+                                 });
+                        });
+                    },
+                    
+                    // Called when the work item is reset to its unmodified state (undo)
+                    onReset: function (args) {
+                        // Debug code
+                        //$(".events").append($("<div/>").text("onReset - " + JSON.stringify(args)));
+                    },
+                    
+                    // Called when the work item has been refreshed from the server
+                    onRefreshed: function (args) {
+                        
+                        getWorkItemFormService().then(function(service) {            
+
+                            // Get the user-configured backing field for our control
+                            inputFieldName = VSS.getConfiguration().witInputs.FieldName;
+                            
+                            // Get the backing field's value
+                            service.getFieldValues([VSS.getConfiguration().witInputs.FieldName]).then(
+                                 function (value) {
+                                     
+                                     // TODO: This block can be abstracted to its own function since it is duplicated throughout listener
+                                     
+                                     valueWithInputFieldNameAsKey = value[inputFieldName]; // working
+                                     
+                                     // Update the DOM element to display our link in the view
+                                     customControlLinkInView = document.getElementById('mchCustomControlLink');
+                                     customControlLinkInView.href = valueWithInputFieldNameAsKey;
+                                     customControlLinkInView.innerText = valueWithInputFieldNameAsKey;
+                                     customControlLinkInView.title = valueWithInputFieldNameAsKey;
+                                    
+                                 });
+                            
+                        });
+                    }
+                }
+            });
+            
+            VSS.notifyLoadSucceeded();
+
+        });
+
+    </script>
+    <!-- Uncomment 'events' </div> below to debug -->
+    <!-- <div class='events'> </div> -->
+    <div id="container" style="padding-top: 3px; padding-bottom: 3px; width: 100%;">
+        <a id="mchCustomControlLink" target="_blank" style="padding-left: 4px; padding-top: 2px; padding-bottom: 2px; width: 100%; display: block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"></a>
+    </div>
+</body>
+
+</html>
