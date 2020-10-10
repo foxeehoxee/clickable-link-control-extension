@@ -2,11 +2,11 @@
     "manifestVersion": 1.0,
     "id": "clickable-link-control-extension",
     "publisher": "MarkHawkes",
-    "version": "1.0.62",
+    "version": "1.0.63",
     "name": "Clickable Links",
-    "description": "An Azure DevOps web extension for displaying clickable href links on the work item form. The links are pulled from a user-configured backing field for the control that may be either visible or hidden.",
+    "description": "Create clickable links from hidden or visible fields on your work item form.",
     "public": true,
-    "categories": ["Azure Repos"],
+    "categories": ["Azure Boards", "Azure Repos"],
     "icons": {
         "default": "images/logo-128x128.png"
     },
@@ -62,7 +62,7 @@
                 "inputs": [
 				    {
                         "id":"FieldName",
-                        "name": "Select the field for this control that contains your link's URL data. This should be a String field and may be visible or hidden on your form.",
+                        "name": "Select the field for this control that contains your link's URL data. This should be a String field and may be visible or hidden from view on your form.",
                         "type": "WorkItemField",
                         "properties": {
                             "workItemFieldTypes": ["String", "PlainText"]
