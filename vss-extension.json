@@ -2,7 +2,7 @@
     "manifestVersion": 1.0,
     "id": "clickable-link-control-extension",
     "publisher": "MarkHawkes",
-    "version": "1.0.63",
+    "version": "1.0.64",
     "name": "Clickable Links",
     "description": "Create clickable links from hidden or visible fields on your work item form.",
     "public": true,
@@ -31,9 +31,6 @@
         {
             "path": "screenshots/6-clickable-links-displayed-on-form.png"
         }
-    ],
-    "galleryFlags": [
-        "Preview"
     ],
     "contributions": [
         {
