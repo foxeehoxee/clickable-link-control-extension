@@ -22,5 +22,3 @@ Instructions:
 ![1-configure-your-fields-controls-and-layout.png](https://github.com/foxeehoxee/clickable-link-control-extension/blob/main/1-configure-your-fields-controls-and-layout.png?raw=true)
 
 - That's it!
-
-Support for Dark Theme coming soon!
